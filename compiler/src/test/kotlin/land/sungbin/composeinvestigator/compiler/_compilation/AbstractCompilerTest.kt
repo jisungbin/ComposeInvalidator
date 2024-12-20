@@ -181,6 +181,7 @@ private object GoldenUtil {
   private fun MatchResult.isNumber() = groupValues[1].isNotEmpty()
   private fun MatchResult.isFileName() = groups[4] != null
 
+  @Suppress("RegExpSimplifiable")
   fun IrFile.dumpSrcForGolden(source: String): String {
     val keySet = mutableListOf<Int>()
     return this

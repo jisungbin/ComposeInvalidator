@@ -72,32 +72,23 @@ public class InvalidationTraceTableIntrinsicCallTransformer(
         )
       }
       currentComposableNameGetterSymbol.kotlinFqName -> {
+        val name = allScopes.lastComposable()?.let { composable ->
+          IrComposableInformation.getName(context.irTrace[DurationWritableSlices.DURABLE_FUNCTION_KEY, composable]!!.composable)
+            .copyWithOffsets(startOffset = expression.startOffset, endOffset = expression.endOffset)
+        }
+        val unknownName = context.irString(
+          SpecialNames.UNKNOWN_STRING,
+          startOffset = expression.startOffset,
+          endOffset = expression.endOffset,
+        )
+
         IrConstructorCallImpl.fromSymbolOwner(
           startOffset = expression.startOffset,
           endOffset = expression.endOffset,
           type = composableNameSymbol.defaultType,
           constructorSymbol = composableNameSymbol.symbol.constructors.first(),
         ).apply {
-          putValueArgument(
-            0,
-            allScopes.lastComposable()
-              ?.let { composable ->
-                IrComposableInformation.getName(
-                  context
-                    .irTrace[DurationWritableSlices.DURABLE_FUNCTION_KEY, composable]!!
-                    .composable,
-                )
-                  .copyWithOffsets(
-                    startOffset = expression.startOffset,
-                    endOffset = expression.endOffset,
-                  )
-              }
-              ?: context.irString(
-                SpecialNames.UNKNOWN_STRING,
-                startOffset = expression.startOffset,
-                endOffset = expression.endOffset,
-              ),
-          )
+          putValueArgument(0, name ?: unknownName)
         }
       }
       currentComposableNameSetterSymbol.kotlinFqName -> {

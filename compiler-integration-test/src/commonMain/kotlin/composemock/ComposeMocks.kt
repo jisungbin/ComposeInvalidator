@@ -98,6 +98,13 @@ infix fun RunningJob.action(block: () -> Unit) {
   }
 }
 
+fun runComposeUnit(
+  recomposerContext: CoroutineContext? = null,
+  content: @Composable () -> Unit,
+) {
+  runCompose(recomposerContext, content)
+}
+
 fun runCompose(
   recomposerContext: CoroutineContext? = null,
   content: @Composable () -> Unit,
