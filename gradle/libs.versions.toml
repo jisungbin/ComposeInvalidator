@@ -12,7 +12,7 @@ kotlin-coroutines = "1.10.1"
 androidx-activity = "1.9.3"
 androidx-annotation = "1.9.1"
 
-compose-activity = "1.9.3"
+compose-activity = "1.10.0"
 compose-multiplatform = "1.7.3"
 
 spotless = "6.25.0"
